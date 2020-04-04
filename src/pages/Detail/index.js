@@ -40,6 +40,10 @@ export default function Detail() {
     );
   }
 
+  function sendTelegram() {
+    Linking.openURL(`tg://resolve?domain=${incident.telegram}`);
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -51,14 +55,21 @@ export default function Detail() {
       </View>
 
       <View style={styles.incident}>
-        <Text style={[styles.incidentProperty, { marginTop: 0 }]}>ONG:</Text>
-        <Text style={styles.incidentValue}>APAD</Text>
+        <Text style={(styles.incidentProperty, { marginTop: 0 })}>ONG:</Text>
+        <Text style={styles.incidentValue}>
+          {incident.name} de {incident.city}/{incident.uf}
+        </Text>
 
         <Text style={styles.incidentProperty}>CASO:</Text>
-        <Text style={styles.incidentValue}>Cadelinha atropelada</Text>
+        <Text style={styles.incidentValue}>{incident.title}</Text>
 
         <Text style={styles.incidentProperty}>VALOR:</Text>
-        <Text style={styles.incidentValue}>R$ 120</Text>
+        <Text style={styles.incidentValue}>
+          {Intl.NumberFormat("pt-BR", {
+            style: "currency",
+            currency: "BRL"
+          }).format(incident.value)}
+        </Text>
       </View>
 
       <View style={styles.contactBox}>
@@ -69,6 +80,9 @@ export default function Detail() {
         <View style={styles.actions}>
           <TouchableOpacity style={styles.action} onPress={sendWhatsapp}>
             <Text style={styles.actionText}>WhatsApp</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.action} onPress={sendTelegram}>
+            <Text style={styles.actionText}>Telegram</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.action} onPress={sendMail}>
             <Text style={styles.actionText}>E-mail</Text>
